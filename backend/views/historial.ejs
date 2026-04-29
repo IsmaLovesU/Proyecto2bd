@@ -1,0 +1,28 @@
+<%- include('partials/header', { title: 'Historial' }) %>
+<main class="main-content">
+  <div class="page-toolbar">
+    <h2>Historial</h2>
+    <a href="/historial/exportar" class="btn-secondary">Exportar CSV ↓</a>
+  </div>
+  <% if (ventas.length === 0) { %>
+    <p class="msg-vacio">No hay ventas registradas.</p>
+  <% } %>
+  <div class="product-grid">
+    <% ventas.forEach(v => { %>
+      <div class="product-card">
+        <div class="card-info">
+          <h3 class="card-title">Orden #<%= v.id_venta %></h3>
+          <p class="card-desc"><%= new Date(v.fecha).toLocaleDateString('es-GT') %></p>
+          <% if (v.cliente_nombre) { %>
+            <p class="card-desc"><%= v.cliente_nombre %> <%= v.cliente_apellido || '' %></p>
+          <% } %>
+          <p class="card-price">Q<%= parseFloat(v.total).toFixed(2) %></p>
+        </div>
+        <div class="card-img">
+          <img src="/img/default.png" alt="orden">
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</main>
+<%- include('partials/footer') %>

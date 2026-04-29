@@ -1,0 +1,18 @@
+<%- include('partials/header', { title: 'Confirmación' }) %>
+<main class="main-content">
+  <div class="confirm-card">
+    <div class="confirm-icon">✓</div>
+    <h2>¡Compra realizada!</h2>
+    <p>Gracias, <strong><%= venta.cliente_nombre %></strong></p>
+    <div class="confirm-details">
+      <p>Orden <strong>#<%= venta.id_venta %></strong></p>
+      <p>Total: <strong>Q<%= parseFloat(venta.total).toFixed(2) %></strong></p>
+      <p class="confirm-fecha"><%= new Date(venta.fecha).toLocaleString('es-GT') %></p>
+    </div>
+    <div class="confirm-actions">
+      <a href="/" class="btn-primary">Seguir comprando</a>
+      <a href="/historial" class="btn-secondary">Ver historial</a>
+    </div>
+  </div>
+</main>
+<%- include('partials/footer') %>

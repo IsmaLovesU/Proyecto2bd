@@ -1,0 +1,45 @@
+<%- include('partials/header', { title: 'Home' }) %>
+
+<main class="main-content">
+
+  <div class="toolbar">
+    <form method="GET" action="/">
+      <select name="categoria" class="select-categoria" onchange="this.form.submit()">
+        <option value="">Categoría: Todas</option>
+        <% categorias.forEach(c => { %>
+          <option value="<%= c.id_categoria %>"
+            <%= categoriaActiva == c.id_categoria ? 'selected' : '' %>>
+            <%= c.nombre %>
+          </option>
+        <% }) %>
+      </select>
+    </form>
+
+    <a href="/carrito" class="btn-carrito">&#x1F6D2;</a>
+  </div>
+
+  <% if (productos.length === 0) { %>
+    <p class="msg-vacio">No hay productos disponibles en esta categoría.</p>
+  <% } %>
+
+  <div class="product-grid">
+    <% productos.forEach(p => { %>
+      <div class="product-card">
+        <div class="card-info">
+          <h3 class="card-title"><%= p.nombre %></h3>
+          <p class="card-desc"><%= p.descripcion %></p>
+          <p class="card-price">Q<%= parseFloat(p.precio).toFixed(2) %></p>
+          <form method="POST" action="/carrito/agregar">
+            <input type="hidden" name="id_producto" value="<%= p.id_producto %>">
+            <button type="submit" class="btn-primary">Añadir</button>
+          </form>
+        </div>
+        <div class="card-img">
+          <img src="<%= p.imagen_url %>" alt="<%= p.nombre %>" onerror="this.src='/img/default.png'">
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</main>
+
+<%- include('partials/footer') %>

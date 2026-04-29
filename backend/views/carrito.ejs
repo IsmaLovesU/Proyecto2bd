@@ -1,0 +1,38 @@
+<%- include('partials/header', { title: 'Carrito' }) %>
+<main class="main-content">
+  <div class="carrito-header">
+    <div class="carrito-icon">&#x1F6D2;</div>
+  </div>
+  <% if (carrito.length === 0) { %>
+    <p class="msg-vacio">Tu carrito está vacío. <a href="/">Seguir comprando</a></p>
+  <% } else { %>
+    <div class="carrito-list">
+      <% carrito.forEach(item => { %>
+        <div class="carrito-item">
+          <div class="carrito-item-img">
+            <img src="<%= item.imagen_url %>" alt="<%= item.nombre %>" onerror="this.src='/img/default.png'">
+          </div>
+          <div class="carrito-item-info">
+            <h3><%= item.nombre %></h3>
+            <p>Cantidad: <%= item.cantidad %></p>
+          </div>
+          <div class="carrito-item-precio">
+            <span class="price-tag">Q<%= (item.precio * item.cantidad).toFixed(2) %></span>
+            <form method="POST" action="/carrito/eliminar">
+              <input type="hidden" name="id_producto" value="<%= item.id_producto %>">
+              <button type="submit" class="btn-eliminar">✕</button>
+            </form>
+          </div>
+        </div>
+        <hr class="divider">
+      <% }) %>
+    </div>
+    <div class="carrito-footer">
+      <span class="price-tag">Precio total: Q<%= total.toFixed(2) %></span>
+      <form method="POST" action="/carrito/comprar">
+        <button type="submit" class="btn-primary">Comprar</button>
+      </form>
+    </div>
+  <% } %>
+</main>
+<%- include('partials/footer') %>
