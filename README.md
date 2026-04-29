@@ -1,6 +1,5 @@
 # ecommerce.com — Proyecto 2
 Aplicación web de gestión de inventario y ventas.
-Curso cc3088 - Bases de Datos 1 | Universidad del Valle de Guatemala
 
 ## Tecnologías
 - Backend: Node.js + Express + EJS
@@ -15,8 +14,8 @@ Curso cc3088 - Bases de Datos 1 | Universidad del Valle de Guatemala
 
 1. Clonar el repositorio
 ```bash
-git clone https://github.com/tu-usuario/tu-repo.git
-cd tu-repo
+git clone https://https://github.com/IsmaLovesU/Proyecto2bd.git
+cd Proyecto2db
 ```
 
 2. Crear el archivo .env
