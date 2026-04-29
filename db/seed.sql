@@ -24,11 +24,11 @@ INSERT INTO empleado (nombre, apellido, cargo, telefono, email) VALUES
 ('Luis',     'Ramírez',  'Soporte',       '5534-7890', 'luis@ecommerce.com');
 
 INSERT INTO usuario (username, password_hash, rol, id_empleado) VALUES
-('admin',    '$2b$10$w8vZbA9z1QwXkLmN3pRt8eYhT5sU7vKj2mF4nG6oH0iJ1kL3mN5oP', 'admin',    1),
-('maria',    '$2b$10$w8vZbA9z1QwXkLmN3pRt8eYhT5sU7vKj2mF4nG6oH0iJ1kL3mN5oP', 'empleado', 2),
-('cliente1', '$2b$10$w8vZbA9z1QwXkLmN3pRt8eYhT5sU7vKj2mF4nG6oH0iJ1kL3mN5oP', 'cliente',  NULL),
-('cliente2', '$2b$10$w8vZbA9z1QwXkLmN3pRt8eYhT5sU7vKj2mF4nG6oH0iJ1kL3mN5oP', 'cliente',  NULL),
-('cliente3', '$2b$10$w8vZbA9z1QwXkLmN3pRt8eYhT5sU7vKj2mF4nG6oH0iJ1kL3mN5oP', 'cliente',  NULL);
+('admin',    '$2b$10$mrk0OomHk5ibelPZb5L7SuGdbSWysCm6BPzBeI0phg5gnS1mapk52', 'admin',    1),
+('maria',    '$2b$10$mrk0OomHk5ibelPZb5L7SuGdbSWysCm6BPzBeI0phg5gnS1mapk52', 'empleado', 2),
+('cliente1', '$2b$10$mrk0OomHk5ibelPZb5L7SuGdbSWysCm6BPzBeI0phg5gnS1mapk52', 'cliente',  NULL),
+('cliente2', '$2b$10$mrk0OomHk5ibelPZb5L7SuGdbSWysCm6BPzBeI0phg5gnS1mapk52', 'cliente',  NULL),
+('cliente3', '$2b$10$mrk0OomHk5ibelPZb5L7SuGdbSWysCm6BPzBeI0phg5gnS1mapk52', 'cliente',  NULL);
 
 INSERT INTO cliente (nombre, apellido, telefono, email, id_usuario) VALUES
 ('Pedro',   'Hernández', '5512-1111', 'pedro@mail.com',   3),
