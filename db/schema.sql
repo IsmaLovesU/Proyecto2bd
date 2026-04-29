@@ -1,7 +1,3 @@
--- ============================================
--- schema.sql — Tienda ecommerce.com
--- Usuario BD: proy2 | Contraseña: secret
--- ============================================
 
 CREATE TABLE categoria (
     id_categoria  SERIAL        PRIMARY KEY,

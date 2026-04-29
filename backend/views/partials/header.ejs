@@ -10,7 +10,15 @@
   <nav class="navbar">
     <span class="nav-page"><%- title %></span>
     <% if (usuario) { %>
-      <a href="/logout" class="btn-logout" title="Cerrar sesión">&#x2192;</a>
+      <div class="nav-links">
+        <a href="/" class="nav-link">Tienda</a>
+        <a href="/historial" class="nav-link">Historial</a>
+        <% if (usuario.rol === 'admin' || usuario.rol === 'empleado') { %>
+          <a href="/inventario" class="nav-link">Inventario</a>
+        <% } %>
+        <span class="nav-user"><%= usuario.username %></span>
+        <a href="/logout" class="btn-logout" title="Cerrar sesión">&#x2192;</a>
+      </div>
     <% } %>
   </nav>
   <header class="site-header">
