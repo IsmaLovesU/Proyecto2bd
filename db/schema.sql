@@ -39,6 +39,7 @@ CREATE TABLE usuario (
     password_hash TEXT          NOT NULL,
     rol           VARCHAR(20)   NOT NULL DEFAULT 'cliente',
     id_empleado   INTEGER       REFERENCES empleado(id_empleado)
+    id_proveedor  INTEGER       REFERENCES proveedor(id_proveedor)
 );
 
 CREATE TABLE cliente (
@@ -70,6 +71,7 @@ CREATE TABLE detalle_venta (
 -- Índices
 CREATE INDEX idx_producto_categoria  ON producto(id_categoria);
 CREATE INDEX idx_venta_cliente       ON venta(id_cliente);
+CREATE INDEX idx_producto_proveedor  ON producto(id_proveedor);
 
 -- Vista historial
 CREATE VIEW vista_historial_ventas AS
