@@ -9,6 +9,8 @@ const homeRoutes       = require('./routes/home');
 const carritoRoutes    = require('./routes/carrito');
 const historialRoutes  = require('./routes/historial');
 const inventarioRoutes = require('./routes/inventario');
+const empleadosRoutes  = require('./routes/empleados');
+const proveedoresRoutes = require('./routes/proveedores');
 
 const app = express();
 
@@ -37,6 +39,8 @@ app.use('/',           homeRoutes);
 app.use('/carrito',    carritoRoutes);
 app.use('/historial',  historialRoutes);
 app.use('/inventario', inventarioRoutes);
+app.use('/empleados',  empleadosRoutes);
+app.use('/proveedores', proveedoresRoutes);
 
 app.use((req, res) => {
   res.status(404).render('error', { mensaje: 'Página no encontrada' });

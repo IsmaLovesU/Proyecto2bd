@@ -37,13 +37,23 @@ router.post('/login', async (req, res) => {
       id:          usuario.id_usuario,
       username:    usuario.username,
       rol:         usuario.rol,
-      id_empleado: usuario.id_empleado
+      id_empleado: usuario.id_empleado,
+      id_proveedor: usuario.id_proveedor
     };
 
-    if (usuario.rol === 'admin' || usuario.rol === 'empleado') {
-      return res.redirect('/inventario');
+    // Redirigir según rol
+    switch (usuario.rol) {
+      case 'admin':
+        return res.redirect('/inventario');
+      case 'gerente':
+        return res.redirect('/empleados');
+      case 'empleado':
+        return res.redirect('/inventario');
+      case 'proveedor':
+        return res.redirect('/proveedores');
+      default:
+        return res.redirect('/');
     }
-    res.redirect('/');
 
   } catch (err) {
     console.error(err);
