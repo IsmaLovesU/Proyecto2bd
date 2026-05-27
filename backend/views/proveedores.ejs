@@ -30,8 +30,11 @@
           </form>
 
           <!-- Editar producto -->
-          <button class="btn-primary" style="margin-top:6px;"
-            onclick="abrirEditar(<%= p.id_producto %>, `<%= p.nombre %>`, `<%= p.descripcion || '' %>`, <%= p.precio %>)">
+          <button class="btn-primary btn-editar" style="margin-top:6px;"
+            data-id="<%= p.id_producto %>"
+            data-nombre="<%= p.nombre %>"
+            data-descripcion="<%= p.descripcion || '' %>"
+            data-precio="<%= p.precio %>">
             Editar info
           </button>
         </div>
@@ -71,13 +74,15 @@
 </main>
 
 <script>
-function abrirEditar(id, nombre, descripcion, precio) {
-  document.getElementById('edit-id').value          = id;
-  document.getElementById('edit-nombre').value      = nombre;
-  document.getElementById('edit-descripcion').value = descripcion;
-  document.getElementById('edit-precio').value      = precio;
-  document.getElementById('modal-editar').classList.add('open');
-}
+  document.querySelectorAll('.btn-editar').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.getElementById('edit-id').value          = btn.dataset.id;
+      document.getElementById('edit-nombre').value      = btn.dataset.nombre;
+      document.getElementById('edit-descripcion').value = btn.dataset.descripcion;
+      document.getElementById('edit-precio').value      = btn.dataset.precio;
+      document.getElementById('modal-editar').classList.add('open');
+    });
+  });
 </script>
 
 <%- include('partials/footer') %>
