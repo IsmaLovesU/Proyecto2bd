@@ -1,0 +1,129 @@
+<%- include('partials/header', { title: 'Empleados' }) %>
+<main class="main-content">
+  <div class="page-toolbar">
+    <h2>Gestión de Empleados</h2>
+    <button class="btn-primary" onclick="document.getElementById('modal-agregar').classList.add('open')">+ Agregar</button>
+  </div>
+
+  <% if (error) { %>
+    <p class="msg-error"><%= error %></p>
+  <% } %>
+
+  <% if (empleados.length === 0) { %>
+    <p class="msg-vacio">No hay empleados registrados.</p>
+  <% } %>
+
+  <div class="product-grid">
+    <% empleados.forEach(e => { %>
+      <div class="product-card">
+        <div class="card-info">
+          <h3 class="card-title"><%= e.nombre %> <%= e.apellido %></h3>
+          <p class="card-desc"><%= e.cargo || 'Sin cargo' %></p>
+          <p class="card-desc"><%= e.telefono || '' %></p>
+          <p class="card-desc"><%= e.email || '' %></p>
+          <div style="display:flex; gap:8px; margin-top:8px;">
+            <button class="btn-secondary btn-editar"
+              data-id="<%= e.id_empleado %>"
+              data-nombre="<%= e.nombre %>"
+              data-apellido="<%= e.apellido %>"
+              data-cargo="<%= e.cargo || '' %>"
+              data-telefono="<%= e.telefono || '' %>"
+              data-email="<%= e.email || '' %>">
+              Editar
+            </button>
+            <form method="POST" action="/empleados/eliminar" style="display:inline">
+              <input type="hidden" name="id_empleado" value="<%= e.id_empleado %>">
+              <button type="submit" class="btn-primary" style="background:#c0392b"
+                onclick="return confirm('¿Eliminar empleado?')">Eliminar</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+
+  <!-- Modal Agregar -->
+  <div id="modal-agregar" class="modal-overlay">
+    <div class="modal-card">
+      <h3>Agregar empleado</h3>
+      <form method="POST" action="/empleados/agregar">
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" name="nombre" required>
+        </div>
+        <div class="form-group">
+          <label>Apellido</label>
+          <input type="text" name="apellido" required>
+        </div>
+        <div class="form-group">
+          <label>Cargo</label>
+          <input type="text" name="cargo">
+        </div>
+        <div class="form-group">
+          <label>Teléfono</label>
+          <input type="text" name="telefono">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" name="email">
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary"
+            onclick="document.getElementById('modal-agregar').classList.remove('open')">Cancelar</button>
+          <button type="submit" class="btn-primary">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Editar -->
+  <div id="modal-editar" class="modal-overlay">
+    <div class="modal-card">
+      <h3>Editar empleado</h3>
+      <form method="POST" action="/empleados/editar">
+        <input type="hidden" name="id_empleado" id="edit-id">
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" name="nombre" id="edit-nombre" required>
+        </div>
+        <div class="form-group">
+          <label>Apellido</label>
+          <input type="text" name="apellido" id="edit-apellido" required>
+        </div>
+        <div class="form-group">
+          <label>Cargo</label>
+          <input type="text" name="cargo" id="edit-cargo">
+        </div>
+        <div class="form-group">
+          <label>Teléfono</label>
+          <input type="text" name="telefono" id="edit-telefono">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" name="email" id="edit-email">
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary"
+            onclick="document.getElementById('modal-editar').classList.remove('open')">Cancelar</button>
+          <button type="submit" class="btn-primary">Actualizar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
+
+<script>
+  document.querySelectorAll('.btn-editar').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.getElementById('edit-id').value       = btn.dataset.id;
+      document.getElementById('edit-nombre').value   = btn.dataset.nombre;
+      document.getElementById('edit-apellido').value = btn.dataset.apellido;
+      document.getElementById('edit-cargo').value    = btn.dataset.cargo;
+      document.getElementById('edit-telefono').value = btn.dataset.telefono;
+      document.getElementById('edit-email').value    = btn.dataset.email;
+      document.getElementById('modal-editar').classList.add('open');
+    });
+  });
+</script>
+
+<%- include('partials/footer') %>

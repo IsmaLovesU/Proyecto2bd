@@ -20,12 +20,21 @@ INSERT INTO empleado (nombre, apellido, cargo, telefono, email) VALUES
 ('Ana',      'Pérez',    'Vendedor',      '5534-3456', 'ana@ecommerce.com'),
 ('Luis',     'Ramírez',  'Soporte',       '5534-7890', 'luis@ecommerce.com');
 
-INSERT INTO usuario (username, password_hash, rol, id_empleado) VALUES
-('admin',    '$2b$10$mrk0OomHk5ibelPZb5L7SuGdbSWysCm6BPzBeI0phg5gnS1mapk52', 'admin',    1),
-('maria',    '$2b$10$mrk0OomHk5ibelPZb5L7SuGdbSWysCm6BPzBeI0phg5gnS1mapk52', 'empleado', 2),
-('cliente1', '$2b$10$mrk0OomHk5ibelPZb5L7SuGdbSWysCm6BPzBeI0phg5gnS1mapk52', 'cliente',  NULL),
-('cliente2', '$2b$10$mrk0OomHk5ibelPZb5L7SuGdbSWysCm6BPzBeI0phg5gnS1mapk52', 'cliente',  NULL),
-('cliente3', '$2b$10$mrk0OomHk5ibelPZb5L7SuGdbSWysCm6BPzBeI0phg5gnS1mapk52', 'cliente',  NULL);
+-- Usuarios de prueba (contraseña: secret para todos)
+-- admin      → rol_admin
+-- gerente1   → rol_gerente
+-- maria      → rol_empleado
+-- cliente1   → rol_cliente
+-- proveedor1 → rol_proveedor
+
+INSERT INTO usuario (username, password_hash, rol, id_empleado, id_proveedor) VALUES
+('admin',       '$2b$10$mrk0OomHk5ibelPZb5L7SuGdbSWysCm6BPzBeI0phg5gnS1mapk52', 'admin',     1,    NULL),
+('gerente1',    '$2b$10$mrk0OomHk5ibelPZb5L7SuGdbSWysCm6BPzBeI0phg5gnS1mapk52', 'gerente',   2,    NULL),
+('maria',       '$2b$10$mrk0OomHk5ibelPZb5L7SuGdbSWysCm6BPzBeI0phg5gnS1mapk52', 'empleado',  3,    NULL),
+('cliente1',    '$2b$10$mrk0OomHk5ibelPZb5L7SuGdbSWysCm6BPzBeI0phg5gnS1mapk52', 'cliente',   NULL, NULL),
+('cliente2',    '$2b$10$mrk0OomHk5ibelPZb5L7SuGdbSWysCm6BPzBeI0phg5gnS1mapk52', 'cliente',   NULL, NULL),
+('cliente3',    '$2b$10$mrk0OomHk5ibelPZb5L7SuGdbSWysCm6BPzBeI0phg5gnS1mapk52', 'cliente',   NULL, NULL),
+('proveedor1',  '$2b$10$mrk0OomHk5ibelPZb5L7SuGdbSWysCm6BPzBeI0phg5gnS1mapk52', 'proveedor', NULL, 1);
 
 INSERT INTO cliente (nombre, apellido, telefono, email, id_usuario) VALUES
 ('Pedro',   'Hernández', '5512-1111', 'pedro@mail.com',   3),

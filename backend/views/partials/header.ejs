@@ -9,14 +9,37 @@
 <body>
   <nav class="navbar">
     <span class="nav-page"><%- title %></span>
-    <% if (usuario) { %>
+    <% if (typeof usuario !== 'undefined' && usuario) { %>
       <div class="nav-links">
-        <a href="/" class="nav-link">Tienda</a>
-        <a href="/historial" class="nav-link">Historial</a>
-        <% if (usuario.rol === 'admin' || usuario.rol === 'empleado') { %>
-          <a href="/inventario" class="nav-link">Inventario</a>
+
+        <% if (usuario.rol === 'cliente') { %>
+          <a href="/" class="nav-link">Tienda</a>
+          <a href="/carrito" class="nav-link">Carrito</a>
+          <a href="/historial" class="nav-link">Mis compras</a>
         <% } %>
-        <span class="nav-user"><%= usuario.username %></span>
+
+        <% if (usuario.rol === 'empleado') { %>
+          <a href="/inventario" class="nav-link">Inventario</a>
+          <a href="/historial" class="nav-link">Historial</a>
+        <% } %>
+
+        <% if (usuario.rol === 'admin') { %>
+          <a href="/" class="nav-link">Tienda</a>
+          <a href="/inventario" class="nav-link">Inventario</a>
+          <a href="/empleados" class="nav-link">Empleados</a>
+          <a href="/historial" class="nav-link">Historial</a>
+        <% } %>
+
+        <% if (usuario.rol === 'gerente') { %>
+          <a href="/empleados" class="nav-link">Empleados</a>
+          <a href="/historial" class="nav-link">Historial</a>
+        <% } %>
+
+        <% if (usuario.rol === 'proveedor') { %>
+          <a href="/proveedores" class="nav-link">Mis productos</a>
+        <% } %>
+
+        <span class="nav-user"><%= usuario.username %> (<%= usuario.rol %>)</span>
         <a href="/logout" class="btn-logout" title="Cerrar sesión">&#x2192;</a>
       </div>
     <% } %>

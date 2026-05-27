@@ -1,0 +1,88 @@
+<%- include('partials/header', { title: 'Mis Productos' }) %>
+<main class="main-content">
+  <div class="page-toolbar">
+    <h2>Mis Productos</h2>
+  </div>
+
+  <% if (error) { %>
+    <p class="msg-error"><%= error %></p>
+  <% } %>
+
+  <% if (productos.length === 0) { %>
+    <p class="msg-vacio">No tienes productos registrados.</p>
+  <% } %>
+
+  <div class="product-grid">
+    <% productos.forEach(p => { %>
+      <div class="product-card">
+        <div class="card-info">
+          <h3 class="card-title"><%= p.nombre %></h3>
+          <p class="card-desc"><%= p.descripcion %></p>
+          <p class="card-price">Q<%= parseFloat(p.precio).toFixed(2) %></p>
+          <p class="card-stock <%= p.stock < 5 ? 'stock-low' : '' %>">Stock: <%= p.stock %></p>
+
+          <!-- Actualizar stock vía SP -->
+          <form method="POST" action="/proveedores/stock" style="display:flex; gap:8px; margin-top:8px; align-items:center;">
+            <input type="hidden" name="id_producto" value="<%= p.id_producto %>">
+            <input type="number" name="nuevo_stock" value="<%= p.stock %>" min="0"
+              style="width:70px; padding:6px; border-radius:8px; border:none; background:#c8daea; color:#1a3a5c;">
+            <button type="submit" class="btn-secondary">Actualizar stock</button>
+          </form>
+
+          <!-- Editar producto -->
+          <button class="btn-primary btn-editar" style="margin-top:6px;"
+            data-id="<%= p.id_producto %>"
+            data-nombre="<%= p.nombre %>"
+            data-descripcion="<%= p.descripcion || '' %>"
+            data-precio="<%= p.precio %>">
+            Editar info
+          </button>
+        </div>
+        <div class="card-img">
+          <img src="<%= p.imagen_url || '/img/default.png' %>" alt="<%= p.nombre %>" onerror="this.src='/img/default.png'">
+        </div>
+      </div>
+    <% }) %>
+  </div>
+
+  <!-- Modal Editar -->
+  <div id="modal-editar" class="modal-overlay">
+    <div class="modal-card">
+      <h3>Editar producto</h3>
+      <form method="POST" action="/proveedores/editar">
+        <input type="hidden" name="id_producto" id="edit-id">
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" name="nombre" id="edit-nombre" required>
+        </div>
+        <div class="form-group">
+          <label>Descripción</label>
+          <input type="text" name="descripcion" id="edit-descripcion">
+        </div>
+        <div class="form-group">
+          <label>Precio (Q)</label>
+          <input type="number" name="precio" id="edit-precio" step="0.01" min="0.01" required>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary"
+            onclick="document.getElementById('modal-editar').classList.remove('open')">Cancelar</button>
+          <button type="submit" class="btn-primary">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
+
+<script>
+  document.querySelectorAll('.btn-editar').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.getElementById('edit-id').value          = btn.dataset.id;
+      document.getElementById('edit-nombre').value      = btn.dataset.nombre;
+      document.getElementById('edit-descripcion').value = btn.dataset.descripcion;
+      document.getElementById('edit-precio').value      = btn.dataset.precio;
+      document.getElementById('modal-editar').classList.add('open');
+    });
+  });
+</script>
+
+<%- include('partials/footer') %>
