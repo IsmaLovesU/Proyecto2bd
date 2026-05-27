@@ -9,7 +9,7 @@
 <body>
   <nav class="navbar">
     <span class="nav-page"><%- title %></span>
-    <% if (usuario) { %>
+    <% if (typeof usuario !== 'undefined' && usuario) { %>
       <div class="nav-links">
 
         <% if (usuario.rol === 'cliente') { %>

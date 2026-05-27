@@ -1,9 +1,9 @@
-const express = require('express');
-const { pool }   = require('../db');
-const { Producto } = require('../models');
-const router  = express.Router();
+const express            = require('express');
+const { pool }           = require('../db');
+const { Producto }       = require('../models');
+const router             = express.Router();
 
-function requireAdmin(req, res, next) {
+function requireAdminOrEmpleado(req, res, next) {
   if (!req.session.usuario) return res.redirect('/login');
   const rol = req.session.usuario.rol;
   if (rol === 'cliente' || rol === 'proveedor') return res.redirect('/');
@@ -16,14 +16,14 @@ function requireAdmin(req, res, next) {
   next();
 }
 
-
-router.get('/', requireAdmin, async (req, res) => {
+// GET /inventario — usa Sequelize (ORM CRUD: READ)
+router.get('/', requireAdminOrEmpleado, async (req, res) => {
   try {
     // Sequelize: listar productos con subquery de ventas via raw
     const productos = await Producto.findAll({
       order: [['nombre', 'ASC']],
     });
- 
+
     // Enriquecer con nombre de categoría y total vendido via raw
     const { rows: detalle } = await pool.query(`
       SELECT p.id_producto,
@@ -36,17 +36,17 @@ router.get('/', requireAdmin, async (req, res) => {
     `);
     const mapaDetalle = {};
     detalle.forEach(d => { mapaDetalle[d.id_producto] = d; });
- 
+
     const { rows: categorias } = await pool.query(
       'SELECT * FROM categoria ORDER BY id_categoria'
     );
- 
+
     const productosVista = productos.map(p => ({
       ...p.dataValues,
       categoria_nombre: mapaDetalle[p.id_producto]?.categoria_nombre || '',
       total_vendido:    mapaDetalle[p.id_producto]?.total_vendido    || 0,
     }));
- 
+
     res.render('inventario', { productos: productosVista, categorias });
   } catch (err) {
     console.error(err);
@@ -57,21 +57,21 @@ router.get('/', requireAdmin, async (req, res) => {
 // POST /inventario/agregar — usa stored procedure sp_agregar_producto
 router.post('/agregar', requireAdmin, async (req, res) => {
   const { nombre, descripcion, precio, stock, imagen_url, id_categoria } = req.body;
- 
+
   if (!nombre || !precio || !stock || !id_categoria) {
     return res.redirect('/inventario?error=campos');
   }
- 
+
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
- 
+
     await client.query(
       'SELECT sp_agregar_producto($1, $2, $3, $4, $5, $6, $7)',
       [nombre, descripcion, parseFloat(precio), parseInt(stock),
        imagen_url || '/img/default.png', id_categoria, 1]
     );
- 
+
     await client.query('COMMIT');
     res.redirect('/inventario');
   } catch (err) {
@@ -82,11 +82,11 @@ router.post('/agregar', requireAdmin, async (req, res) => {
     client.release();
   }
 });
- 
+
 // POST /inventario/stock — actualiza stock via SP sp_actualizar_stock
 router.post('/stock', requireAdminOrEmpleado, async (req, res) => {
   const { id_producto, nuevo_stock } = req.body;
- 
+
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
